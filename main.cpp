@@ -134,7 +134,7 @@ vector<int> escolher3NosAleatorios(Data& data){
         sequence.push_back(ramdom_number);
     }
 
-    //sequence.push_back(1);
+    sequence.push_back(1);
     return sequence;
 }
 
@@ -192,7 +192,7 @@ void ordenarEmOrdemCrescente(vector<InsertionInfo>& custoInsercao){
 
 void inserirNaSolução(Solution& s, InsertionInfo noInserido, vector<int>& CL){
     
-    s.sequence.insert(s.sequence.begin() + noInserido.arestaRemovida,noInserido.noInserido);
+    s.sequence.insert(s.sequence.begin() + (noInserido.arestaRemovida + 1),noInserido.noInserido);
 
     for(int i = 0; i < CL.size(); i++){
         if(CL[i] == noInserido.noInserido){
