@@ -1,1 +1,1 @@
-Kit do Laboratório LOG
+Kit do Laboratório LOG.
