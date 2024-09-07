@@ -382,6 +382,8 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
             {
                 if(s->sequence[i] == best_i){
                     s->sequence.insert(i+1, j1);
+                    
+                    break;
                 }
             }
 
@@ -441,6 +443,8 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
                 if(s->sequence[i] == best_i){
                     s->sequence.insert(i+1, j2);
                     s->sequence.insert(i+1, j1);
+
+                    break;
                 }
             }
 
@@ -503,6 +507,8 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
                     s->sequence.insert(i+1, j3);
                     s->sequence.insert(i+1, j2);
                     s->sequence.insert(i+1, j1);
+
+                    break;
                 }
             }
 
