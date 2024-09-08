@@ -1,3 +1,6 @@
+#ifndef SOLUTION_H
+#define SOLUTION_H
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -15,3 +18,5 @@ public:
     Solution();
     ~Solution();
 };
+
+#endif
