@@ -15,29 +15,16 @@ int main(int argc, char** argv) {
         MaxIterIls = MaxIterIls/2;
     }
 
-    Solution s = Construcao(data);
+    Solution s = ILS(maxIter, MaxIterIls, data);
 
     cout << "Solucao s = ";
+
     double cost = 0.0;
 
     for (int i = 0; i < s.sequence.size() - 1; i++) {
         cout << s.sequence[i] << " -> ";
         cost += data.getDistance(s.sequence[i], s.sequence[i+1]);
     }
-
-    cout << "1" << endl;
-
-    cout << "Custo de S: " << cost << endl;
-
-    s = Perturbacao(s);
-
-    cout << "Solucao s = ";
-
-    for (int i = 0; i < s.sequence.size() - 1; i++) {
-        cout << s.sequence[i] << " -> ";
-        cost += data.getDistance(s.sequence[i], s.sequence[i+1]);
-    }
-
     cout << "1" << endl;
 
     cout << "Custo de S: " << cost << endl;

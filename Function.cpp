@@ -6,7 +6,7 @@
 //Busca pela melhor solução dado uma vizinhança
 
 void BuscaLocal(Solution& s, Data &data){
-    vector<int> NL = {1,2};
+    vector<int> NL = {1,2,3,4,5};
     bool improved = false;
 
     while(!NL.empty()){
@@ -32,10 +32,12 @@ void BuscaLocal(Solution& s, Data &data){
         }
 
         if(improved)
-            NL = {1,2};
+            NL = {1,2,3,4,5};
         else
             NL.erase(NL.begin() + n);
     }
+
+    cout << "Saiu" << endl;
 }
 
 //Ainda não sei
@@ -198,8 +200,6 @@ Solution ILS(int maxItr, int MaxIterIls, Data& data){
         Solution s = Construcao(data);
         Solution best = s;
 
-        cout << s.cost << endl;
-
         int interIls = 0;
 
         while (interIls <= MaxIterIls)
@@ -263,7 +263,7 @@ void inserirNaSolução(Solution& s, InsertionInfo noInserido, vector<int>& CL){
     }
 }
 
-//Troca dois nos quaisques (Todos as possíveis trocas)
+//Troca dois nos quaisques (Todas as possíveis trocas)
 
 bool bestImprovementSwap(Solution &s, Data &data){
 
@@ -503,6 +503,8 @@ bool bestImprovementOrOpt(Solution &s, Data &data, int choice){
                 j3 = vj3;
                 }
             }
+
+            cout << "Deu verdadeiro: " << bestDelta << endl;
         }
 
         if(bestDelta < 0){
@@ -526,9 +528,6 @@ bool bestImprovementOrOpt(Solution &s, Data &data, int choice){
             s.cost = s.cost + bestDelta;
             return true;
         }
-
-        return false;
     }
-
     return false;
 }
