@@ -1,73 +1,61 @@
-bool bestImprovementSwap(Solution *s, Data data){
-    double bestDelta = 0;
-    int best_i, best_j;
+Solution Perturbacao(Solution best){
+    while(true){
 
-    for(int i = 1; i < s->sequence.size() - 2; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
-        int vi_prev = s->sequence[i-1];
+        int count = 0;
 
-        for(int j = i+1; j < s->sequence.size() - 1; j++){
-            int vj = s->sequence[j];
-            int vj_next = s->sequence[j+1];
-            int vj_prev = s->sequence[j-1];
+        //[0]     [1]       [2]     [3]
+        //PosSeg1 QtAresta1 PosSeg2 QtAresta2
+        vector<int> segment;
 
-            double delta;
 
-            if(vj_prev == vi){
-                delta = - data.getDistance(vi_prev,vi) - data.getDistance(vj, vj_next)
-                + data.getDistance(vi_prev, vj) + data.getDistance(vi, vj_next);
-            }else{
-                delta = - data.getDistance(vi_prev, vi) - data.getDistance(vi, vi_next)
-                + data.getDistance(vi_prev, vj) + data.getDistance(vj, vi_next)
-                - data.getDistance(vj_prev, vj) - data.getDistance(vj, vj_next)
-                + data.getDistance(vj_prev, vi) + data.getDistance(vi, vj_next);
-            }
 
-    
-            if (delta < bestDelta)
-            {
-                bestDelta = delta;
-                best_i = i;
-                best_j = j;
-            }
+        //Gerando local e segmento aleatório
+        while(count < 4){
+            random_device rd;
+            mt19937 gen(rd());
+            uniform_int_distribution<> dis(2, best.sequence.size() - 2);
+            int selecionado = dis(gen);
+
+            int ramdom_number = 1 + rand() % (selecionado);
+            segment.push_back(ramdom_number);
+            count++;
+        }
+
+        //Comparando onde está o segmento (quem está mais a direita)
+
+
+        //Quando segmento [0] está mais a direita
+        if(segment[0] > segment[2] && segment[0] + segment[1] < best.sequence.size() - 1 && segment[2] + segment[3] <= segment[0]){
+            auto vi = best.sequence.begin() + segment[2];
+            auto vi_last = best.sequence.begin() + (segment[2] + segment[3]);
+            auto vj = best.sequence.begin() + segment[0];
+            auto vj_last = best.sequence.begin() + (segment[0] + segment[1]);
+
+            rotate(vi, vi_last, vj_last);
+
+            vj = vj_last - (segment[3] + segment[1]);
+            vj_last = vj_last - segment[3];
+
+            rotate(vi, vj, vj_last);
+
+            return best;
+        }
+
+        //Quando segmento [2] está mais a direita
+        if(segment[2] > segment[0] && segment[2] + segment[3] < best.sequence.size() - 1 && segment[0] + segment[1] <= segment[2]){
+            auto vi = best.sequence.begin() + segment[0];
+            auto vi_last = best.sequence.begin() + (segment[0] + segment[1]);
+            auto vj = best.sequence.begin() + segment[2];
+            auto vj_last = best.sequence.begin() + (segment[2] + segment[3]);
+
+            rotate(vi, vi_last, vj_last);
+
+            vj = vj_last - (segment[1] + segment[3]);
+            vj_last = vj_last - segment[1];
+
+            rotate(vi, vj, vj_last);
+
+            return best;
         }
     }
-
-    if(bestDelta < 0){
-
-        cout << "Trocou: " << s->sequence[best_i] << " e " << s->sequence[best_j] << endl;
-
-        swap(s->sequence[best_i], s->sequence[best_j]);
-        s->cost = s->cost + bestDelta;
-
-        for(int i = 0; i < s->sequence.size(); i++){
-            cout << s->sequence[i] << "-> ";
-        }
-        return true;
-    }
-
-    cout << "Best: ";
-
-                for(int k = 0; k < best.sequence.size(); k++){
-                    cout << best.sequence[k] << " ";
-                }
-
-
-                for(int k = 0)
-
-                cout << endl;
-                cout << "seg1: ";
-
-                for(int k = 0; k < vec_seg1.size(); k++){
-                    cout << vec_seg1[k] << " ";
-                }
-
-                cout << endl;
-                cout << "seg2: ";
-
-                for(int k = 0; k < vec_seg2.size(); k++){
-                    cout << vec_seg2[k] << " ";
-                }
-
-                cout << endl;
+}
