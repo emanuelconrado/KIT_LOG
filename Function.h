@@ -23,19 +23,20 @@ struct InsertionInfo{
     double custo; // delta ao inserir k na aresta {i,j}
 };
 
-void BuscaLocal(Solution *s, Data data);
+void BuscaLocal(Solution& s, Data &data);
 Solution Perturbacao(Solution best);
 Solution ILS(int maxItr, int MaxIterIls, Data& data);
 vector<int> escolher3NosAleatorios(Data& data);
 vector<int> nosRestantes(Solution s, Data& data);
 Solution Construcao(Data &data);
 void inserirNaSolução(Solution& s, InsertionInfo noInserido, vector<int>& CL);
+void calculaCusto(Solution &s, Data &data);
 
 //Vizinhaça
 
-bool bestImprovementSwap(Solution *s, Data data);
-bool bestImprovement2Opt(Solution *s, Data data);
-bool bestImprovementOrOpt(Solution *s, Data data, int choice);
+bool bestImprovementSwap(Solution &s, Data &data);
+bool bestImprovement2Opt(Solution &s, Data &data);
+bool bestImprovementOrOpt(Solution &s, Data &data, int choice);
 
 //
 

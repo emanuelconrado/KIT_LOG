@@ -46,3 +46,28 @@ bool bestImprovementSwap(Solution *s, Data data){
         }
         return true;
     }
+
+    cout << "Best: ";
+
+                for(int k = 0; k < best.sequence.size(); k++){
+                    cout << best.sequence[k] << " ";
+                }
+
+
+                for(int k = 0)
+
+                cout << endl;
+                cout << "seg1: ";
+
+                for(int k = 0; k < vec_seg1.size(); k++){
+                    cout << vec_seg1[k] << " ";
+                }
+
+                cout << endl;
+                cout << "seg2: ";
+
+                for(int k = 0; k < vec_seg2.size(); k++){
+                    cout << vec_seg2[k] << " ";
+                }
+
+                cout << endl;

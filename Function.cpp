@@ -5,12 +5,14 @@
 
 //Busca pela melhor solução dado uma vizinhança
 
-void BuscaLocal(Solution *s, Data data){
-    vector<int> NL = {1,2,3,4,5};
+void BuscaLocal(Solution& s, Data &data){
+    vector<int> NL = {1,2};
     bool improved = false;
 
     while(!NL.empty()){
+
         int n = rand() % NL.size();
+
         switch(NL[n]){
         case 1:
             improved = bestImprovementSwap(s, data);
@@ -30,7 +32,7 @@ void BuscaLocal(Solution *s, Data data){
         }
 
         if(improved)
-            NL = {1,2,3,4,5};
+            NL = {1,2};
         else
             NL.erase(NL.begin() + n);
     }
@@ -39,8 +41,65 @@ void BuscaLocal(Solution *s, Data data){
 //Ainda não sei
 
 Solution Perturbacao(Solution best){
-    Solution s;
-    return s;
+    while(true){
+
+        int count = 0;
+
+        //[0]     [1]       [2]     [3]
+        //PosSeg1 QtAresta1 PosSeg2 QtAresta2
+        vector<int> segment;
+
+
+
+        //Gerando local e segmento aleatório
+        while(count < 4){
+            random_device rd;
+            mt19937 gen(rd());
+            uniform_int_distribution<> dis(2, best.sequence.size() - 2);
+            int selecionado = dis(gen);
+
+            int ramdom_number = 1 + rand() % (selecionado);
+            segment.push_back(ramdom_number);
+            count++;
+        }
+
+        //Comparando onde está o segmento (quem está mais a direita)
+
+
+        //Quando segmento [0] está mais a direita
+        if(segment[0] > segment[2] && segment[0] + segment[1] < best.sequence.size() - 1 && segment[2] + segment[3] <= segment[0]){
+            auto vi = best.sequence.begin() + segment[2];
+            auto vi_last = best.sequence.begin() + (segment[2] + segment[3]);
+            auto vj = best.sequence.begin() + segment[0];
+            auto vj_last = best.sequence.begin() + (segment[0] + segment[1]);
+
+            rotate(vi, vi_last, vj_last);
+
+            vj = vj_last - (segment[3] + segment[1]);
+            vj_last = vj_last - segment[3];
+
+            rotate(vi, vj, vj_last);
+
+            return best;
+        }
+
+        //Quando segmento [2] está mais a direita
+        if(segment[2] > segment[0] && segment[2] + segment[3] < best.sequence.size() - 1 && segment[0] + segment[1] <= segment[2]){
+            auto vi = best.sequence.begin() + segment[0];
+            auto vi_last = best.sequence.begin() + (segment[0] + segment[1]);
+            auto vj = best.sequence.begin() + segment[2];
+            auto vj_last = best.sequence.begin() + (segment[2] + segment[3]);
+
+            rotate(vi, vi_last, vj_last);
+
+            vj = vj_last - (segment[1] + segment[3]);
+            vj_last = vj_last - segment[1];
+
+            rotate(vi, vj, vj_last);
+
+            return best;
+        }
+    }
 }
 
 //Contruindo a solução
@@ -48,6 +107,7 @@ Solution Perturbacao(Solution best){
 Solution Construcao(Data &data){
     Solution s;
     s.sequence = escolher3NosAleatorios(data);
+
     vector<int> CL = nosRestantes(s, data);
 
     while(!CL.empty()){
@@ -60,24 +120,7 @@ Solution Construcao(Data &data){
         inserirNaSolução(s, custoInsercao[selecionado], CL);
     }
 
-
-    //Print sequencia incial:
-
-    cout << "Sequencia incial: 2" << endl;
-
-    for (int i = 0; i < s.sequence.size(); i++)
-    {
-        cout << s.sequence[i] << "-> ";
-    }
-
-    cout << endl;
-
-    cout << "Best bestImprovementSwap: " << endl;
-
-    bestImprovementSwap(&s, data);
-
-    cout << endl;
-
+    calculaCusto(s, data);
     return s;
 }
 
@@ -86,7 +129,7 @@ Solution Construcao(Data &data){
 vector<int> nosRestantes(Solution s, Data& data){
     vector<int> restante;
 
-    for(int i = 1; i < data.getDimension(); i++){
+    for(int i = 1; i <= data.getDimension(); i++){
         int count = 0;
         for(int j = 0; j < s.sequence.size(); j++){
             if(s.sequence[j] == i){
@@ -109,12 +152,26 @@ vector<int> escolher3NosAleatorios(Data& data){
     mt19937 gen(rd());
     uniform_int_distribution<> dis(2, data.getDimension());
 
+    int count = 0;
+
     vector<int> sequence;
     sequence.push_back(1);
 
-    for(int i = 1; i < 4; i++){
+    while(count < 3){
         int ramdom_number = dis(gen);
-        sequence.push_back(ramdom_number);
+        bool rep = false;
+
+        for(int j = 0; j < sequence.size(); j++){
+            if (ramdom_number == sequence[j]){
+                rep = true;
+                break;
+            }
+        }
+
+        if(!rep){
+            sequence.push_back(ramdom_number);
+            count++;
+        }
     }
 
     sequence.push_back(1);
@@ -123,31 +180,48 @@ vector<int> escolher3NosAleatorios(Data& data){
 
 //Ainda não sei
 
+void calculaCusto(Solution &s, Data &data){
+    s.cost = 0.0;
+
+    for(int i = 0; i < s.sequence.size() - 1; i++){
+        s.cost = s.cost + data.getDistance(s.sequence[i], s.sequence[i+1]);
+    }
+}
+
 Solution ILS(int maxItr, int MaxIterIls, Data& data){
     
     Solution bestOfAll;
     bestOfAll.cost = 100000000;
 
     for(int i = 0; i < maxItr; i++){
+
         Solution s = Construcao(data);
         Solution best = s;
+
+        cout << s.cost << endl;
 
         int interIls = 0;
 
         while (interIls <= MaxIterIls)
         {
-            BuscaLocal(&s, data);
+            BuscaLocal(s, data);
+
             if(s.cost < best.cost){
                 best = s;
                 interIls = 0;
             }
 
             s = Perturbacao(best);
+
             interIls++;
+
         }
-        if(best.cost < bestOfAll.cost)
+
+
+        if(best.cost < bestOfAll.cost){
             bestOfAll = best;
-        
+        }
+
     }
 
     return bestOfAll;
@@ -191,19 +265,20 @@ void inserirNaSolução(Solution& s, InsertionInfo noInserido, vector<int>& CL){
 
 //Troca dois nos quaisques (Todos as possíveis trocas)
 
-bool bestImprovementSwap(Solution *s, Data data){
+bool bestImprovementSwap(Solution &s, Data &data){
+
     double bestDelta = 0;
     int best_i, best_j;
 
-    for(int i = 1; i < s->sequence.size() - 2; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
-        int vi_prev = s->sequence[i-1];
+    for(int i = 1; i < s.sequence.size() - 1; i++){
+        int vi = s.sequence[i];
+        int vi_next = s.sequence[i+1];
+        int vi_prev = s.sequence[i-1];
 
-        for(int j = i+1; j < s->sequence.size() - 1; j++){
-            int vj = s->sequence[j];
-            int vj_next = s->sequence[j+1];
-            int vj_prev = s->sequence[j-1];
+        for(int j = i+1; j < s.sequence.size() - 1; j++){
+            int vj = s.sequence[j];
+            int vj_next = s.sequence[j+1];
+            int vj_prev = s.sequence[j-1];
 
             double delta;
 
@@ -228,15 +303,8 @@ bool bestImprovementSwap(Solution *s, Data data){
     }
 
     if(bestDelta < 0){
-
-        cout << "Trocou: " << s->sequence[best_i] << " e " << s->sequence[best_j] << endl;
-
-        swap(s->sequence[best_i], s->sequence[best_j]);
-        s->cost = s->cost + bestDelta;
-
-        for(int i = 0; i < s->sequence.size(); i++){
-            cout << s->sequence[i] << "-> ";
-        }
+        std::swap(s.sequence[best_i], s.sequence[best_j]);
+        s.cost = s.cost + bestDelta;
         return true;
     }
 
@@ -246,19 +314,19 @@ bool bestImprovementSwap(Solution *s, Data data){
 
 //Troca dois nos não adjacentes
 
-bool bestImprovement2Opt(Solution *s, Data data){
+bool bestImprovement2Opt(Solution &s, Data &data){
     double bestDelta = 0;
-    int best_i, best_j;
+    int best_i = 0, best_j = 0;
 
-    for(int i = 1; i < s->sequence.size() - 3; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
-        int vi_prev = s->sequence[i-1];
+    for(int i = 1; i < s.sequence.size() - 3; i++){
+        int vi = s.sequence[i];
+        int vi_next = s.sequence[i+1];
+        int vi_prev = s.sequence[i-1];
 
-        for(int j = i+2; j < s->sequence.size() - 1; j++){
-            int vj = s->sequence[j];
-            int vj_next = s->sequence[j+1];
-            int vj_prev = s->sequence[j-1];
+        for(int j = i+2; j < s.sequence.size() - 1; j++){
+            int vj = s.sequence[j];
+            int vj_next = s.sequence[j+1];
+            int vj_prev = s.sequence[j-1];
 
             double delta = - data.getDistance(vi_prev, vi) - data.getDistance(vj, vj_next)
             + data.getDistance(vi_prev, vj) + data.getDistance(vi, vj_next);
@@ -274,15 +342,15 @@ bool bestImprovement2Opt(Solution *s, Data data){
     }
 
     if(bestDelta < 0){
-        swap(s->sequence[best_i], s->sequence[best_j]);
-        s->cost = s->cost + bestDelta;
+        reverse(s.sequence.begin() + best_i, s.sequence.begin() + best_j + 1);
+        s.cost = s.cost + bestDelta;
         return true;
     }
 
     return false;
 }
 
-bool bestImprovementOrOpt(Solution *s, Data data, int choice){
+bool bestImprovementOrOpt(Solution &s, Data &data, int choice){
     double bestDelta = 0;
     int best_i, best_j;
 
@@ -293,14 +361,14 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
     //Posiciona 1 no:
     case 1:
 
-        for(int i = 0; i < s->sequence.size() - 1; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
+        for(int i = 0; i < s.sequence.size() - 1; i++){
+        int vi = s.sequence[i];
+        int vi_next = s.sequence[i+1];
 
-            for(int j = 1; j < s->sequence.size() - 2; j++){
-                int vj = s->sequence[j];
-                int vj_next = s->sequence[j+1];
-                int vj_prev = s->sequence[j-1];
+            for(int j = 1; j < s.sequence.size() - 2; j++){
+                int vj = s.sequence[j];
+                int vj_next = s.sequence[j+1];
+                int vj_prev = s.sequence[j-1];
 
                 if(vi == vj || vi_next == vj){
                     continue;
@@ -325,18 +393,18 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
 
             for (int i = 0; i < choice; ++i)
             {
-                s->sequence.erase(s->sequence.begin() + best_j);
+                s.sequence.erase(s.sequence.begin() + best_j);
             }
 
-            for (int i = 0; i < s->sequence.size() - 1; ++i)
+            for (int i = 0; i < s.sequence.size() - 1; ++i)
             {
-                if(s->sequence[i] == best_i){
-                    s->sequence.insert(s->sequence.begin() + i, j1);
+                if(s.sequence[i] == best_i){
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j1);
                     break;
                 }
             }
 
-            s->cost = s->cost + bestDelta;
+            s.cost = s.cost + bestDelta;
             return true;
         }
 
@@ -345,16 +413,16 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
     //Posiciona 2 nos adjacentes:
     case 2:
 
-        for(int i = 0; i < s->sequence.size() - 1; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
+        for(int i = 0; i < s.sequence.size() - 1; i++){
+        int vi = s.sequence[i];
+        int vi_next = s.sequence[i+1];
 
-            for(int j = 1; j < s->sequence.size() - 3; j++){
-                int vj1 = s->sequence[j];
-                int vj2 = s->sequence[j+1];
+            for(int j = 1; j < s.sequence.size() - 3; j++){
+                int vj1 = s.sequence[j];
+                int vj2 = s.sequence[j+1];
 
-                int vj_next = s->sequence[j+2];
-                int vj_prev = s->sequence[j-1];
+                int vj_next = s.sequence[j+2];
+                int vj_prev = s.sequence[j-1];
 
                 if(vi == vj1 || vi == vj2 || vi_next == vj1){
                     continue;
@@ -381,20 +449,20 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
 
             for (int i = 0; i < choice; ++i)
             {
-                s->sequence.erase(s->sequence.begin() + best_j);
+                s.sequence.erase(s.sequence.begin() + best_j);
             }
 
-            for (int i = 0; i < s->sequence.size() - 1; ++i)
+            for (int i = 0; i < s.sequence.size() - 1; ++i)
             {
-                if(s->sequence[i] == best_i){
-                    s->sequence.insert(s->sequence.begin() + i, j2);
-                    s->sequence.insert(s->sequence.begin() + i, j1);
+                if(s.sequence[i] == best_i){
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j2);
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j1);
 
                     break;
                 }
             }
 
-            s->cost = s->cost + bestDelta;
+            s.cost = s.cost + bestDelta;
             return true;
         }
 
@@ -403,17 +471,17 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
     //Posiciona 3 nos adjacentes:
     case 3:
 
-        for(int i = 0; i < s->sequence.size() - 1; i++){
-        int vi = s->sequence[i];
-        int vi_next = s->sequence[i+1];
+        for(int i = 0; i < s.sequence.size() - 1; i++){
+        int vi = s.sequence[i];
+        int vi_next = s.sequence[i+1];
 
-            for(int j = 1; j < s->sequence.size() - 4; j++){
-                int vj1 = s->sequence[j];
-                int vj2 = s->sequence[j+1];
-                int vj3 = s->sequence [j+2];
+            for(int j = 1; j < s.sequence.size() - 4; j++){
+                int vj1 = s.sequence[j];
+                int vj2 = s.sequence[j+1];
+                int vj3 = s.sequence [j+2];
 
-                int vj_next = s->sequence[j+3];
-                int vj_prev = s->sequence[j-1];
+                int vj_next = s.sequence[j+3];
+                int vj_prev = s.sequence[j-1];
 
                 if(vi == vj1 || vi == vj2 || vi == vj3 || vi_next == vj3){
                     continue;
@@ -441,21 +509,21 @@ bool bestImprovementOrOpt(Solution *s, Data data, int choice){
 
             for (int i = 0; i < choice; ++i)
             {
-                s->sequence.erase(s->sequence.begin() + best_j);
+                s.sequence.erase(s.sequence.begin() + best_j);
             }
 
-            for (int i = 0; i < s->sequence.size() - 1; ++i)
+            for (int i = 0; i < s.sequence.size() - 1; ++i)
             {
-                if(s->sequence[i] == best_i){
-                    s->sequence.insert(s->sequence.begin() + i, j3);
-                    s->sequence.insert(s->sequence.begin() + i, j2);
-                    s->sequence.insert(s->sequence.begin() + i, j1);
+                if(s.sequence[i] == best_i){
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j3);
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j2);
+                    s.sequence.insert(s.sequence.begin() + (i + 1), j1);
 
                     break;
                 }
             }
 
-            s->cost = s->cost + bestDelta;
+            s.cost = s.cost + bestDelta;
             return true;
         }
 
