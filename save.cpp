@@ -1,61 +1,51 @@
-Solution Perturbacao(Solution best){
-    while(true){
+bool bestImprovementOrOpt(Solution &s, Data &data, int choice){
+    double bestDelta = 0;
+    int best_i, best_j;
 
-        int count = 0;
-
-        //[0]     [1]       [2]     [3]
-        //PosSeg1 QtAresta1 PosSeg2 QtAresta2
-        vector<int> segment;
+    vector<int>::iterator vj_select, vi_select;
 
 
+    for(int i = 0; i < s.sequence.size() - 1; i++){
+        auto vi = s.sequence.begin() + i;
+        auto vi_next = s.sequence.begin() + (i+1);
 
-        //Gerando local e segmento aleatório
-        while(count < 4){
-            random_device rd;
-            mt19937 gen(rd());
-            uniform_int_distribution<> dis(2, best.sequence.size() - 2);
-            int selecionado = dis(gen);
+            for(int j = 1; j < s.sequence.size() - choice; j++){
+                auto vj = s.sequence.begin() + j;
+                auto vj_next = s.sequence.begin() + (j+choice);
+                auto vj_prev = s.sequence.begin() + (j-1);
 
-            int ramdom_number = 1 + rand() % (selecionado);
-            segment.push_back(ramdom_number);
-            count++;
-        }
+                if(vi < vj_prev || vj_next < vi){
+                    double delta = - data.getDistance(*vj_prev, *vj) - data.getDistance(*(vj + (choice-1)), *vj_next)
+                    + data.getDistance(*vj_prev, *vj_next) - data.getDistance(*vi, *vi_next)
+                    + data.getDistance(*vi, *vj) + data.getDistance(*(vj + (choice-1)), *vi_next);
 
-        //Comparando onde está o segmento (quem está mais a direita)
+    
+                    if (delta < bestDelta)
+                    {
+                        vj_select = vj;
+                        vi_select = vi;
+                        bestDelta = delta;
+                    }
+                }
 
-
-        //Quando segmento [0] está mais a direita
-        if(segment[0] > segment[2] && segment[0] + segment[1] < best.sequence.size() - 1 && segment[2] + segment[3] <= segment[0]){
-            auto vi = best.sequence.begin() + segment[2];
-            auto vi_last = best.sequence.begin() + (segment[2] + segment[3]);
-            auto vj = best.sequence.begin() + segment[0];
-            auto vj_last = best.sequence.begin() + (segment[0] + segment[1]);
-
-            rotate(vi, vi_last, vj_last);
-
-            vj = vj_last - (segment[3] + segment[1]);
-            vj_last = vj_last - segment[3];
-
-            rotate(vi, vj, vj_last);
-
-            return best;
-        }
-
-        //Quando segmento [2] está mais a direita
-        if(segment[2] > segment[0] && segment[2] + segment[3] < best.sequence.size() - 1 && segment[0] + segment[1] <= segment[2]){
-            auto vi = best.sequence.begin() + segment[0];
-            auto vi_last = best.sequence.begin() + (segment[0] + segment[1]);
-            auto vj = best.sequence.begin() + segment[2];
-            auto vj_last = best.sequence.begin() + (segment[2] + segment[3]);
-
-            rotate(vi, vi_last, vj_last);
-
-            vj = vj_last - (segment[1] + segment[3]);
-            vj_last = vj_last - segment[1];
-
-            rotate(vi, vj, vj_last);
-
-            return best;
         }
     }
+    if(bestDelta < 0){
+
+        cout << "Vi: " << *vi_select << " Vj: " << *vj_select << endl;
+
+        if(vj_select > vi_select){
+            rotate(vi_select + 1, vj_select, vj_select + choice);
+        }else{
+            rotate(vj_select, vj_select + choice, vi_select + 1);
+        }
+
+        for(int i = 0; i < s.sequence.size(); i++){
+
+        }
+
+        s.cost = s.cost + bestDelta;
+        return true;
+    }
+    return false;
 }
