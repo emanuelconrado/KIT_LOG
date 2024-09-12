@@ -1,14 +1,322 @@
 Processador: 12 × AMD Ryzen 5 4500 6-Core Processor
 
-Instância: att48.tsp
-Média de tempo: 0.221927
-Média de custo: 10628
-Instância: bays29.tsp
-Média de tempo: 0.0736827
-Média de custo: 2020
-Instância: bayg29.tsp
-Média de tempo: 0.0723537
-Média de custo: 1610
+1
 Instância: burma14.tsp
-Média de tempo: 0.0361854
+Média de tempo: 0.0362737
 Média de custo: 3323
+
+2
+Instância: gr17.tsp
+Média de tempo: 0.044151
+Média de custo: 2085
+
+3
+Instância: gr21.tsp
+Média de tempo: 0.0505343
+Média de custo: 2707
+
+4
+Instância: gr24.tsp
+Média de tempo: 0.0634642
+Média de custo: 1272
+
+5
+Instância: fri26.tsp
+Média de tempo: 0.064172
+Média de custo: 937
+
+6
+Instância: bayg29.tsp
+Média de tempo: 0.0720535
+Média de custo: 1610
+
+7
+Instância: bays29.tsp
+Média de tempo: 0.0751465
+Média de custo: 2020
+
+8
+Instância: swiss42.tsp
+Média de tempo: 0.150873
+Média de custo: 1273
+
+9
+Instância: dantzig42.tsp
+Média de tempo: 0.145512
+Média de custo: 699
+
+10
+Instância: att48.tsp
+Média de tempo: 0.217733
+Média de custo: 10628
+
+11
+Instância: gr48.tsp
+Média de tempo: 0.20881
+Média de custo: 5046
+
+12
+Instância: eil51.tsp
+Média de tempo: 0.281556
+Média de custo: 427
+
+13
+Instância: berlin52.tsp
+Média de tempo: 0.273826
+Média de custo: 7542
+
+14
+Instância: brazil58.tsp
+Média de tempo: 0.372357
+Média de custo: 25395
+
+15
+Instância: st70.tsp
+Média de tempo: 0.752302
+Média de custo: 677.2
+
+16
+Instância: pr76.tsp
+Média de tempo: 1.00364
+Média de custo: 108166
+
+17
+Instância: eil76.tsp
+Média de tempo: 1.1011
+Média de custo: 541.2
+
+18
+Instância: gr96.tsp
+Média de tempo: 2.11057
+Média de custo: 55373.3
+
+19
+Instância: rat99.tsp
+Média de tempo: 2.47886
+Média de custo: 1218.1
+
+20
+Instância: kroB100.tsp
+Média de tempo: 2.94944
+Média de custo: 22158.2
+
+21
+Instância: kroC100.tsp
+Média de tempo: 2.69895
+Média de custo: 20782.9
+
+22
+Instância: kroD100.tsp
+Média de tempo: 2.75407
+Média de custo: 21346.1
+
+23
+Instância: kroE100.tsp
+Média de tempo: 2.81282
+Média de custo: 22077.1
+
+24
+Instância: rd100.tsp
+Média de tempo: 2.9973
+Média de custo: 7927
+
+25
+Instância: eil101.tsp
+Média de tempo: 2.95866
+Média de custo: 636.2
+
+26
+Instância: lin105.tsp
+Média de tempo: 3.29915
+Média de custo: 14379
+
+27
+Instância: pr107.tsp
+Média de tempo: 3.3172
+Média de custo: 44340.6
+
+28
+Instância: gr120.tsp
+Média de tempo: 5.84298
+Média de custo: 6997
+
+29
+Instância: pr124.tsp
+Média de tempo: 4.95407
+Média de custo: 59040.3
+
+30
+Instância: bier127.tsp
+Média de tempo: 6.75507
+Média de custo: 118657
+
+31
+Instância: ch130.tsp
+Média de tempo: 7.67613
+Média de custo: 6153
+
+32
+Instância: pr136.tsp
+Média de tempo: 9.54867
+Média de custo: 97367.3
+
+33
+Instância: gr137.tsp
+Média de tempo: 8.04844
+Média de custo: 70104.2
+
+34
+Instância: pr144.tsp
+Média de tempo: 8.924
+Média de custo: 58563.5
+
+35
+Instância: kroB150.tsp
+Média de tempo: 7.00657
+Média de custo: 26246.9
+
+36
+Instância: ch150.tsp
+Média de tempo: 7.82409
+Média de custo: 6578.6
+
+37
+Instância: pr152.tsp
+Média de tempo: 7.02966
+Média de custo: 73824.2
+
+38
+Instância: u159.tsp
+Média de tempo: 7.31854
+Média de custo: 42270.1
+
+39
+Instância: kroA150.tsp
+Média de tempo: 7.52093
+Média de custo: 26718.1
+
+40
+Instância: si175.tsp
+Média de tempo: 11.3462
+Média de custo: 21421.5
+
+41
+Instância: brg180.tsp
+Média de tempo: 12.6037
+Média de custo: 1950
+
+42
+Instância: rat195.tsp
+Média de tempo: 17.8503
+Média de custo: 2375.9
+
+43
+Instância: d198.tsp
+Média de tempo: 20.6614
+Média de custo: 15839.7
+
+44
+Instância: kroA200.tsp
+Média de tempo: 20.7435
+Média de custo: 29672.6
+
+45
+Instância: kroB200.tsp
+Média de tempo: 23.0414
+Média de custo: 29896.8
+
+46
+Instância: gr202.tsp
+Média de tempo: 23.4536
+Média de custo: 40648
+
+47
+Instância: ts225.tsp
+Média de tempo: 26.0075
+Média de custo: 126787
+
+48
+Instância: tsp225.tsp
+Média de tempo: 30.3583
+Média de custo: 3976.6
+
+49
+Instância: pr226.tsp
+Média de tempo: 28.2205
+Média de custo: 80515.3
+
+50
+Instância: gr229.tsp
+Média de tempo: 34.2443
+Média de custo: 136037
+
+51
+Instância: gil262.tsp
+Média de tempo: 56.2714
+Média de custo: 2422.8
+
+52
+Instância: pr264.tsp
+Média de tempo: 41.4699
+Média de custo: 49733.2
+
+53
+Instância: a280.tsp
+Média de tempo: 56.633
+Média de custo: 2622.3
+
+54
+Instância: pr299.tsp
+Média de tempo: 87.5369
+Média de custo: 48816.9
+
+55
+Instância: lin318.tsp
+Média de tempo: 118.486
+Média de custo: 42645
+
+56
+Instância: linhp318.tsp
+Média de tempo: 117.441
+Média de custo: 42637.3
+
+57
+Instância: rd400.tsp
+Média de tempo: 687.851
+Média de custo: 15537.4
+
+58
+Instância: fl417.tsp
+Média de tempo: 328.455
+Média de custo: 11928.1
+
+59
+Instância: gr431.tsp
+Média de tempo: 521.681
+Média de custo: 174507
+
+60
+Instância: pcb442.tsp
+Média de tempo: 870.465
+Média de custo: 51501.9
+
+61
+Instância: d493.tsp
+Média de tempo: 1344.69
+Média de custo: 35538.7
+
+62
+Instância: att532.tsp
+Média de tempo: 2319.93
+Média de custo: 28191.2
+
+63
+Instância: ali535.tsp
+Média de tempo: 3909.68
+Média de custo: 206567
+
+64
+Instância: si535.tsp
+Média de tempo: 1219.28
+Média de custo: 48588
+

@@ -135,13 +135,12 @@ int main(int argc, char** argv) {
             total_cost += costs[k];
         }
 
-        cout << "Intância: " << instancias[count] << endl;
-        cout << "Média de tempo: " << (total_time/10)/1000 << endl;
-        cout << "Média de custo: " << (total_cost/10) << endl;
-
+        outFile << count + 1 << endl;
         outFile << "Instância: " << instancias[count] << endl;
         outFile << "Média de tempo: " << (total_time/10)/1000 << endl;
         outFile << "Média de custo: " << (total_cost/10) << endl;
+
+        outFile << endl;
 
         count++;
     }
