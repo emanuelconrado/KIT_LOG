@@ -1,0 +1,4 @@
+att48.tsp
+bays29.tsp
+bayg29.tsp
+burma14.tsp

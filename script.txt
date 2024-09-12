@@ -1,0 +1,2 @@
+g++ -O3 main.cpp Data.cpp Solution.cpp Function.cpp -o a
+./a /home/Duel/Documentos/KIT_LOG/instan_nome.txt

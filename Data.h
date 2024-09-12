@@ -12,7 +12,7 @@ using namespace std;
 
 class Data{
 public:
-	Data( int, char * );
+	Data( int, char* );
 	~Data();
 
 	void read();

@@ -2,7 +2,7 @@
 
 
 //Inicializador
-Data::Data( int qtParam, char * instance ):
+Data::Data( int qtParam, char* instance ):
 xCoord(NULL),
 yCoord(NULL),
 distMatrix(NULL){

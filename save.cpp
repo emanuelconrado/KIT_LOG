@@ -1,51 +1,34 @@
-bool bestImprovementOrOpt(Solution &s, Data &data, int choice){
-    double bestDelta = 0;
-    int best_i, best_j;
+gettimeofday(&start, NULL);
 
-    vector<int>::iterator vj_select, vi_select;
+            auto data = Data(argc, current[count]);
+            data.read();
+            size_t n = data.getDimension();
 
+            int maxIter = 50;
+            int MaxIterIls = data.getDimension();
 
-    for(int i = 0; i < s.sequence.size() - 1; i++){
-        auto vi = s.sequence.begin() + i;
-        auto vi_next = s.sequence.begin() + (i+1);
+            if(MaxIterIls >= 150){
+                MaxIterIls = MaxIterIls/2;
+            }
 
-            for(int j = 1; j < s.sequence.size() - choice; j++){
-                auto vj = s.sequence.begin() + j;
-                auto vj_next = s.sequence.begin() + (j+choice);
-                auto vj_prev = s.sequence.begin() + (j-1);
+            Solution s = ILS(maxIter, MaxIterIls, data);
 
-                if(vi < vj_prev || vj_next < vi){
-                    double delta = - data.getDistance(*vj_prev, *vj) - data.getDistance(*(vj + (choice-1)), *vj_next)
-                    + data.getDistance(*vj_prev, *vj_next) - data.getDistance(*vi, *vi_next)
-                    + data.getDistance(*vi, *vj) + data.getDistance(*(vj + (choice-1)), *vi_next);
+            //cout << "Solucao s = ";
 
-    
-                    if (delta < bestDelta)
-                    {
-                        vj_select = vj;
-                        vi_select = vi;
-                        bestDelta = delta;
-                    }
-                }
+            double cost = 0.0;
 
-        }
-    }
-    if(bestDelta < 0){
+            for (int i = 0; i < s.sequence.size() - 1; i++) {
+                //cout << s.sequence[i] << " -> ";
+                cost += data.getDistance(s.sequence[i], s.sequence[i+1]);
+            }
+            //cout << "1" << endl;
+            //cout << "Custo de S: " << cost << endl;
 
-        cout << "Vi: " << *vi_select << " Vj: " << *vj_select << endl;
+            best_cost += cost;
 
-        if(vj_select > vi_select){
-            rotate(vi_select + 1, vj_select, vj_select + choice);
-        }else{
-            rotate(vj_select, vj_select + choice, vi_select + 1);
-        }
+            gettimeofday(&end, NULL);
+            long seconds = end.tv_sec - start.tv_sec;
+            long microseconds = end.tv_usec - start.tv_usec;
+            double time_taken = seconds * 1000.0 + microseconds/1000.0;
 
-        for(int i = 0; i < s.sequence.size(); i++){
-
-        }
-
-        s.cost = s.cost + bestDelta;
-        return true;
-    }
-    return false;
-}
+            time += time_taken;

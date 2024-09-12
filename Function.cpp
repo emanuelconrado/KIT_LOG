@@ -32,7 +32,7 @@ void BuscaLocal(Solution& s, Data &data){
         }
 
         if(improved)
-            NL = {1};
+            NL = {1,2,3,4,5};
         else
             NL.erase(NL.begin() + n);
     }
@@ -45,7 +45,7 @@ void BuscaLocal(Solution& s, Data &data){
 Solution Perturbacao(Solution best){
     random_device rd;
     static mt19937 gen(rd());
-    uniform_int_distribution<> dis(1, best.sequence.size() - 2);
+    uniform_int_distribution<> dis(1, ceil(best.sequence.size()/10.0));
 
 
     while(true){
@@ -57,11 +57,11 @@ Solution Perturbacao(Solution best){
         vector<int> segment;
 
         //Gerando local e segmento aleatório
-        while(count < 4){
+        while(count < 2){
             int selecionado = dis(gen);
-            int ramdom_number = 1 + rand() % selecionado;
-
-            segment.push_back(ramdom_number);
+            int random_number = 1 + rand() % selecionado;
+            segment.push_back(random_number);
+            segment.push_back(selecionado);
             count++;
         }
 
@@ -263,7 +263,7 @@ void inserirNaSolução(Solution& s, InsertionInfo noInserido, vector<int>& CL){
 //Troca dois nos quaisques (Todas as possíveis trocas)
 
 bool bestImprovementSwap(Solution &s, Data &data){
-    
+
     double bestDelta = 0;
     int best_i, best_j;
 

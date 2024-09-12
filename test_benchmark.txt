@@ -1,0 +1,14 @@
+Processador: 12 × AMD Ryzen 5 4500 6-Core Processor
+
+Instância: att48.tsp
+Média de tempo: 0.221927
+Média de custo: 10628
+Instância: bays29.tsp
+Média de tempo: 0.0736827
+Média de custo: 2020
+Instância: bayg29.tsp
+Média de tempo: 0.0723537
+Média de custo: 1610
+Instância: burma14.tsp
+Média de tempo: 0.0361854
+Média de custo: 3323
